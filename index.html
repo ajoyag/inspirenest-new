@@ -1,134 +1,505 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Template Collection</title>
+    <title>InspireNest | Curated Gifting</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Playfair Display (Serif) & Montserrat (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
                     },
                     colors: {
-                        glass: 'rgba(255, 255, 255, 0.03)',
-                        glassBorder: 'rgba(255, 255, 255, 0.08)',
+                        gold: {
+                            400: '#D4AF37',
+                            500: '#C5A028',
+                            600: '#B08D26',
+                        },
+                        charcoal: '#1A1A1A',
+                        cream: '#F9F8F6',
+                        sand: '#EBE5CE'
                     }
                 }
             }
         }
     </script>
+
     <style>
         body {
-            background-color: #09090b;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.08) 0%, transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.08) 0%, transparent 25%);
-        }
-        
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+            background-color: #FDFBF9; /* Very soft warm white */
+            color: #1A1A1A;
         }
 
-        /* Custom scrollbar */
+        /* Smooth Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #09090b;
+            background: #f1f1f1;
         }
         ::-webkit-scrollbar-thumb {
-            background: #27272a;
+            background: #D4AF37;
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #3f3f46;
+
+        /* Image Hover Zoom Effect */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom-container img {
+            transition: transform 0.7s ease;
+        }
+        .img-zoom-container:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Editorial Line Input */
+        .editorial-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #d1d5db;
+            padding: 1rem 0;
+            width: 100%;
+            transition: border-color 0.3s ease;
+        }
+        .editorial-input:focus {
+            outline: none;
+            border-bottom: 1px solid #1A1A1A;
+        }
+
+        /* Hero Text Gradient */
+        .text-gradient-gold {
+            background: linear-gradient(to right, #D4AF37, #8a6e18);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
-<body class="text-zinc-100 min-h-screen flex flex-col">
 
-    <!-- Header -->
-    <header class="py-12 px-6 text-center relative z-10">
-        <h1 class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 mb-4">
-            Template Collection
-        </h1>
-        <p class="text-zinc-400 text-lg max-w-2xl mx-auto font-light">
-            Select a template below to view the premium design.
-        </p>
-    </header>
+<body class="antialiased">
 
-    <!-- Main Content Grid -->
-    <main class="flex-grow px-4 md:px-8 pb-16 max-w-7xl mx-auto w-full z-10">
-        <div id="button-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-            <!-- Buttons will be injected here via JavaScript -->
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-serif font-bold tracking-tight text-charcoal">
+                Inspire<span class="text-gold-400">Nest</span>.
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-10">
+                <a href="#approach" class="text-sm uppercase tracking-widest text-gray-600 hover:text-black transition duration-300">Approach</a>
+                <a href="#collections" class="text-sm uppercase tracking-widest text-gray-600 hover:text-black transition duration-300">Curations</a>
+                <a href="#catalog" class="text-sm uppercase tracking-widest text-gray-600 hover:text-black transition duration-300">Catalog</a>
+                <a href="#contact" class="px-6 py-2 bg-charcoal text-white text-sm uppercase tracking-wider hover:bg-gold-400 transition duration-300">Inquire</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden text-charcoal focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
         </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-lg py-4 flex flex-col items-center space-y-4 md:hidden">
+            <a href="#approach" class="text-sm uppercase tracking-widest text-gray-600">Approach</a>
+            <a href="#collections" class="text-sm uppercase tracking-widest text-gray-600">Curations</a>
+            <a href="#catalog" class="text-sm uppercase tracking-widest text-gray-600">Catalog</a>
+            <a href="#contact" class="text-sm uppercase tracking-widest text-gold-600">Inquire</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute top-0 right-0 w-1/2 h-full bg-cream -z-10 hidden lg:block"></div>
+            
+            <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <span class="text-gold-500 tracking-[0.2em] uppercase text-xs font-semibold mb-4 block">Est. 2024</span>
+                    <h1 class="text-5xl lg:text-7xl font-serif font-medium leading-[1.1] mb-8 text-charcoal">
+                        The Art of <br>
+                        <i class="font-serif italic text-gold-500">Thoughtful</i> Gifting.
+                    </h1>
+                    <p class="text-gray-500 text-lg mb-10 max-w-md font-light leading-relaxed">
+                        We curate bespoke experiences and artisanal collections designed to strengthen bonds and celebrate life's most exquisite moments.
+                    </p>
+                    <div class="flex items-center space-x-6">
+                        <a href="#collections" class="group flex items-center space-x-2 border-b border-charcoal pb-1 hover:border-gold-400 transition duration-300">
+                            <span class="text-charcoal group-hover:text-gold-400 font-medium">Explore Collections</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-charcoal group-hover:text-gold-400 transition duration-300"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="relative reveal delay-100">
+                    <div class="img-zoom-container relative z-10">
+                        <!-- High quality minimalistic gift image -->
+                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop" alt="Elegant Packaging" class="w-full h-[600px] object-cover shadow-2xl">
+                    </div>
+                    <!-- Decorative Element -->
+                    <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-gold-400/20 -z-10 backdrop-blur-sm"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Approach (Minimalist Grid) -->
+        <section id="approach" class="py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal">
+                    <div class="max-w-xl">
+                        <h2 class="text-3xl md:text-4xl font-serif mb-4">Elevating Expectations</h2>
+                        <p class="text-gray-500 font-light">We believe gifting is a love language. Our process is meticulous, ensuring every detail whispers luxury and care.</p>
+                    </div>
+                    <div class="hidden md:block w-24 h-[1px] bg-charcoal mb-2"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="group p-8 border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-500 bg-cream reveal">
+                        <div class="w-12 h-12 bg-white flex items-center justify-center mb-6 rounded-full shadow-sm text-gold-500">
+                            <i data-lucide="gem" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-xl font-serif mb-3">Curated Selection</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Hand-selected artisanal goods from around the globe, ensuring uniqueness in every box.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="group p-8 border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-500 bg-cream reveal delay-100">
+                        <div class="w-12 h-12 bg-white flex items-center justify-center mb-6 rounded-full shadow-sm text-gold-500">
+                            <i data-lucide="pen-tool" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-xl font-serif mb-3">Bespoke Design</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Custom branding and personalization tailored precisely to the recipient's taste.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="group p-8 border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-500 bg-cream reveal delay-200">
+                        <div class="w-12 h-12 bg-white flex items-center justify-center mb-6 rounded-full shadow-sm text-gold-500">
+                            <i data-lucide="gift" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-xl font-serif mb-3">White Glove Delivery</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Impeccable presentation and reliable logistics to ensure the unboxing is magical.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Signature Collections (Editorial Layout) -->
+        <section id="collections" class="py-24 bg-cream overflow-hidden">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-20 reveal">
+                    <span class="text-gold-500 tracking-widest uppercase text-xs font-semibold mb-2 block">Signature Editions</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-charcoal">The Curated Edit</h2>
+                </div>
+
+                <!-- Collection Item 1 -->
+                <div class="flex flex-col md:flex-row items-center gap-12 mb-24 reveal">
+                    <div class="w-full md:w-1/2 img-zoom-container">
+                        <img src="https://images.unsplash.com/photo-1608256246200-53e635b5b65f?q=80&w=2070&auto=format&fit=crop" alt="Spa Collection" class="w-full h-[500px] object-cover">
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-10">
+                        <h3 class="text-3xl font-serif mb-4 italic">The Serenity</h3>
+                        <p class="text-gray-600 mb-6 font-light leading-relaxed">Dedicated to the art of relaxation. Featuring organic bath salts, artisanal soy candles, and Egyptian cotton textiles. A sanctuary in a box.</p>
+                        <ul class="mb-8 space-y-2 text-sm text-gray-500">
+                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 mr-2 text-gold-400"></i> Sustainably Sourced</li>
+                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 mr-2 text-gold-400"></i> Hand-poured Candles</li>
+                        </ul>
+                        <a href="#contact" class="text-xs uppercase tracking-widest border-b border-charcoal pb-1 hover:text-gold-500 hover:border-gold-500 transition">Request Pricing</a>
+                    </div>
+                </div>
+
+                <!-- Collection Item 2 -->
+                <div class="flex flex-col md:flex-row-reverse items-center gap-12 reveal">
+                    <div class="w-full md:w-1/2 img-zoom-container">
+                        <img src="https://images.unsplash.com/photo-1579372786545-d24232daf584?q=80&w=2070&auto=format&fit=crop" alt="Gourmet Collection" class="w-full h-[500px] object-cover">
+                    </div>
+                    <div class="w-full md:w-1/2 md:pr-10">
+                        <h3 class="text-3xl font-serif mb-4 italic">The Connoisseur</h3>
+                        <p class="text-gray-600 mb-6 font-light leading-relaxed">For the refined palate. A selection of single-origin chocolates, rare vintage coffees, and small-batch preserves curated for the epicurean.</p>
+                        <ul class="mb-8 space-y-2 text-sm text-gray-500">
+                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 mr-2 text-gold-400"></i> Limited Edition</li>
+                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 mr-2 text-gold-400"></i> Sommelier Approved</li>
+                        </ul>
+                        <a href="#contact" class="text-xs uppercase tracking-widest border-b border-charcoal pb-1 hover:text-gold-500 hover:border-gold-500 transition">Request Pricing</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catalog / Needs (Tabs) -->
+        <section id="catalog" class="py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-4xl font-serif text-charcoal mb-4">Select Your Occasion</h2>
+                    <p class="text-gray-500 font-light max-w-2xl mx-auto">Whether enhancing corporate relationships or celebrating personal milestones, we have the perfect gesture.</p>
+                </div>
+
+                <!-- Custom Tab Switcher -->
+                <div class="flex justify-center mb-16 reveal">
+                    <div class="bg-gray-100 p-1 rounded-full inline-flex">
+                        <button id="corporate-btn" class="px-8 py-3 rounded-full text-sm font-medium transition-all duration-300 bg-white shadow-md text-charcoal">Corporate</button>
+                        <button id="consumer-btn" class="px-8 py-3 rounded-full text-sm font-medium transition-all duration-300 text-gray-500 hover:text-charcoal">Personal</button>
+                    </div>
+                </div>
+
+                <!-- Content Container -->
+                <div id="corporate-content" class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
+                    <!-- Item -->
+                    <div class="group cursor-pointer">
+                        <div class="bg-cream h-48 flex items-center justify-center mb-4 transition-colors group-hover:bg-gray-100">
+                            <i data-lucide="award" class="w-8 h-8 text-gray-400 group-hover:text-gold-500 transition-colors"></i>
+                        </div>
+                        <h4 class="text-center font-serif text-lg">Milestones</h4>
+                    </div>
+                    <!-- Item -->
+                    <div class="group cursor-pointer">
+                        <div class="bg-cream h-48 flex items-center justify-center mb-4 transition-colors group-hover:bg-gray-100">
+                            <i data-lucide="users" class="w-8 h-8 text-gray-400 group-hover:text-gold-500 transition-colors"></i>
+                        </div>
+                        <h4 class="text-center font-serif text-lg">Team Building</h4>
+                    </div>
+                    <!-- Item -->
+                    <div class="group cursor-pointer">
+                        <div class="bg-cream h-48 flex items-center justify-center mb-4 transition-colors group-hover:bg-gray-100">
+                            <i data-lucide="briefcase" class="w-8 h-8 text-gray-400 group-hover:text-gold-500 transition-colors"></i>
+                        </div>
+                        <h4 class="text-center font-serif text-lg">Client Appreciation</h4>
+                    </div>
+                    <!-- Item -->
+                    <div class="group cursor-pointer">
+                        <div class="bg-cream h-48 flex items-center justify-center mb-4 transition-colors group-hover:bg-gray-100">
+                            <i data-lucide="calendar" class="w-8 h-8 text-gray-400 group-hover:text-gold-500 transition-colors"></i>
+                        </div>
+                        <h4 class="text-center font-serif text-lg">Holiday Gifting</h4>
+                    </div>
+                </div>
+
+                <div id="consumer-content" class="hidden grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
+                    <!-- Item -->
+                    <div class="group cursor-pointer">
+                        <div class="bg-cream h-48 flex items-center justify-center mb-4 transition-colors group-hover:bg-gray-100">
+                            <i data-lucide="cake" class="w-8 h-8 text-gray-400 group-hover:text-gold-500 transition-colors"></i>
+                        </div>
+                        <h4 class="text-center font-serif text-lg">Birthdays</h4>
+                    </div>
+                    <!-- Item -->
+                    <div class="group cursor-pointer">
+                        <div class="bg-cream h-48 flex items-center justify-center mb-4 transition-colors group-hover:bg-gray-100">
+                            <i data-lucide="heart" class="w-8 h-8 text-gray-400 group-hover:text-gold-500 transition-colors"></i>
+                        </div>
+                        <h4 class="text-center font-serif text-lg">Weddings</h4>
+                    </div>
+                    <!-- Item -->
+                    <div class="group cursor-pointer">
+                        <div class="bg-cream h-48 flex items-center justify-center mb-4 transition-colors group-hover:bg-gray-100">
+                            <i data-lucide="flower-2" class="w-8 h-8 text-gray-400 group-hover:text-gold-500 transition-colors"></i>
+                        </div>
+                        <h4 class="text-center font-serif text-lg">Anniversaries</h4>
+                    </div>
+                    <!-- Item -->
+                    <div class="group cursor-pointer">
+                        <div class="bg-cream h-48 flex items-center justify-center mb-4 transition-colors group-hover:bg-gray-100">
+                            <i data-lucide="party-popper" class="w-8 h-8 text-gray-400 group-hover:text-gold-500 transition-colors"></i>
+                        </div>
+                        <h4 class="text-center font-serif text-lg">Celebrations</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA / About (Dark Section) -->
+        <section class="py-28 bg-charcoal text-white text-center">
+            <div class="container mx-auto px-6 reveal">
+                <i data-lucide="quote" class="w-8 h-8 text-gold-400 mx-auto mb-6"></i>
+                <p class="text-2xl md:text-3xl font-serif italic max-w-3xl mx-auto mb-10 leading-normal">
+                    "Excellence is not an act, but a habit. We curate not just gifts, but moments that linger in memory."
+                </p>
+                <a href="#contact" class="inline-block px-10 py-4 border border-white/30 text-white text-sm uppercase tracking-widest hover:bg-white hover:text-charcoal transition-all duration-300">
+                    Begin Your Project
+                </a>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 bg-cream">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="bg-white p-10 md:p-16 shadow-[0_8px_30px_rgb(0,0,0,0.04)] reveal">
+                    <div class="text-center mb-12">
+                        <span class="text-gold-500 tracking-widest uppercase text-xs font-semibold mb-2 block">Concierge Service</span>
+                        <h2 class="text-4xl font-serif text-charcoal">Get in Touch</h2>
+                    </div>
+
+                    <form id="contact-form" class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label for="name" class="block text-xs uppercase tracking-wider text-gray-400 mb-2">Full Name</label>
+                                <input type="text" id="name" required class="editorial-input text-charcoal placeholder-gray-300" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-xs uppercase tracking-wider text-gray-400 mb-2">Email Address</label>
+                                <input type="email" id="email" required class="editorial-input text-charcoal placeholder-gray-300" placeholder="john@example.com">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="interest" class="block text-xs uppercase tracking-wider text-gray-400 mb-2">Interest</label>
+                            <select id="interest" class="editorial-input text-charcoal bg-transparent">
+                                <option>Corporate Gifting</option>
+                                <option>Personal Celebration</option>
+                                <option>Wedding Registry</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-xs uppercase tracking-wider text-gray-400 mb-2">Message</label>
+                            <textarea id="message" rows="4" class="editorial-input text-charcoal placeholder-gray-300" placeholder="Tell us about your requirements..."></textarea>
+                        </div>
+
+                        <div class="text-center pt-6">
+                            <button type="submit" class="bg-charcoal text-white px-12 py-4 text-sm uppercase tracking-widest hover:bg-gold-400 transition-colors duration-300">
+                                Send Inquiry
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="py-8 text-center text-zinc-600 text-sm border-t border-zinc-900/50">
-        <p>&copy; 2024 Premium Templates. All rights reserved.</p>
+    <footer class="bg-white pt-20 pb-10 border-t border-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-16">
+                <div class="mb-8 md:mb-0">
+                    <a href="#" class="text-3xl font-serif font-bold tracking-tight text-charcoal block mb-4">
+                        Inspire<span class="text-gold-400">Nest</span>.
+                    </a>
+                    <p class="text-gray-400 font-light text-sm max-w-xs">Turning everyday moments into lasting bonds through the art of gifting.</p>
+                </div>
+                
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-12">
+                    <div class="text-sm text-gray-500">
+                        <span class="block uppercase tracking-widest text-xs text-charcoal mb-2 font-semibold">Contact</span>
+                        <a href="mailto:support@inspirenest.com" class="block hover:text-gold-500 transition">support@inspirenest.com</a>
+                        <span class="block mt-1">+91 951 477 4611</span>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        <span class="block uppercase tracking-widest text-xs text-charcoal mb-2 font-semibold">Social</span>
+                        <div class="flex space-x-4">
+                            <a href="#" class="hover:text-gold-500 transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                            <a href="#" class="hover:text-gold-500 transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                            <a href="#" class="hover:text-gold-500 transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 font-light">
+                <p>&copy; 2024 Inspire Nest. All rights reserved.</p>
+                <div class="space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-charcoal transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-charcoal transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const grid = document.getElementById('button-grid');
-            
-            // Icon SVG (Arrow Right)
-            const arrowIcon = `
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-            `;
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-            for (let i = 1; i <= 50; i++) {
-                // Create anchor element
-                const link = document.createElement('a');
-                link.href = `index${i}.html`;
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Tab Switching Logic
+        const corporateBtn = document.getElementById('corporate-btn');
+        const consumerBtn = document.getElementById('consumer-btn');
+        const corporateContent = document.getElementById('corporate-content');
+        const consumerContent = document.getElementById('consumer-content');
+
+        function switchTab(type) {
+            if(type === 'corporate') {
+                corporateContent.classList.remove('hidden');
+                corporateContent.classList.add('grid');
+                consumerContent.classList.add('hidden');
+                consumerContent.classList.remove('grid');
                 
-                // Base classes
-                link.className = `
-                    group relative overflow-hidden
-                    flex items-center justify-between
-                    p-5 rounded-xl
-                    bg-zinc-900/50 border border-zinc-800
-                    hover:border-indigo-500/50
-                    transition-all duration-300 ease-out
-                    hover:shadow-[0_0_20px_rgba(79,70,229,0.15)]
-                    hover:-translate-y-1
-                    backdrop-blur-sm
-                `;
+                corporateBtn.classList.add('bg-white', 'shadow-md', 'text-charcoal');
+                corporateBtn.classList.remove('text-gray-500');
+                consumerBtn.classList.remove('bg-white', 'shadow-md', 'text-charcoal');
+                consumerBtn.classList.add('text-gray-500');
+            } else {
+                consumerContent.classList.remove('hidden');
+                consumerContent.classList.add('grid');
+                corporateContent.classList.add('hidden');
+                corporateContent.classList.remove('grid');
 
-                // Inner content
-                link.innerHTML = `
-                    <!-- Gradient overlay on hover -->
-                    <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    
-                    <!-- Content -->
-                    <div class="flex items-center relative z-10">
-                        <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-800 text-zinc-400 text-xs font-mono mr-4 group-hover:bg-indigo-500 group-hover:text-white transition-colors duration-300">
-                            ${i.toString().padStart(2, '0')}
-                        </span>
-                        <span class="font-medium text-zinc-300 group-hover:text-white transition-colors">
-                            Template ${i}
-                        </span>
-                    </div>
-                    
-                    <!-- Icon -->
-                    <div class="text-zinc-600 group-hover:text-indigo-400 relative z-10 transition-colors">
-                        ${arrowIcon}
-                    </div>
-                `;
-
-                grid.appendChild(link);
+                consumerBtn.classList.add('bg-white', 'shadow-md', 'text-charcoal');
+                consumerBtn.classList.remove('text-gray-500');
+                corporateBtn.classList.remove('bg-white', 'shadow-md', 'text-charcoal');
+                corporateBtn.classList.add('text-gray-500');
             }
+        }
+
+        corporateBtn.addEventListener('click', () => switchTab('corporate'));
+        consumerBtn.addEventListener('click', () => switchTab('consumer'));
+
+        // Contact Form Alert
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your inquiry. A concierge will contact you shortly.');
+            e.target.reset();
+        });
+
+        // Scroll Reveal Animation using Intersection Observer
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
         });
     </script>
 </body>
-
 </html>
